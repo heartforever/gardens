@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  background: url("../img/bg.png");
+  font-size: 11px;
+  font-family: 'Open Sans', sans-serif;
+  color: #4A4A4A;
+  text-align: center; }
+
+#nav {
+  height: 34px;
+  width: 65%;
+  background: #cc9933;
+  margin: 10px auto;
+  color: #600302;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 10px 5px 10px black; }
+
+#nav span {
+  line-height: 2.2;
+  border-right: 1px ridge #600302;
+  padding-right: 5px; }
+
+#nav a {
+  padding: 9px 17px;
+  background: white; }
+
+#nav a:link {
+  text-decoration: none;
+  color: white;
+  background: #cc9933; }
+
+#nav a:visited {
+  text-decoration: none;
+  color: white;
+  background: #cc9933; }
+
+#nav a:hover {
+  text-decoration: none;
+  color: white;
+  background: #600302;
+  border-radius: 5px; }
+
+#nav a:active {
+  text-decoration: none;
+  color: white;
+  background: orange;
+  border-radius: 5px; }
+
+.wrap {
+  margin: 20px auto;
+  display: block;
+  width: 300px;
+  height: 210px;
+  background: #f3f3f3;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+  .wrap ol {
+    margin: 30px;
+    text-align: left; }
+
+.gradient {
+  /* Center Positioning */
+  width: 600px;
+  height: 600px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -300px;
+  margin-top: -300px;
+  z-index: -2;
+  /* Fallback */
+  background-image: url(http://www.demo.amitjakhu.com/login-form/images/gradient.png);
+  background-repeat: no-repeat;
+  /* CSS3 Gradient */
+  background-image: -webkit-gradient(radial, 0% 0%, 0% 100%, from(#d5f6ff), to(rgba(213, 246, 255, 0)));
+  background-image: -webkit-radial-gradient(50% 50%, 40% 40%, #d5f6ff, rgba(213, 246, 255, 0));
+  background-image: -moz-radial-gradient(50% 50%, 50% 50%, #d5f6ff, rgba(213, 246, 255, 0));
+  background-image: -ms-radial-gradient(50% 50%, 50% 50%, #d5f6ff, rgba(213, 246, 255, 0));
+  background-image: -o-radial-gradient(50% 50%, 50% 50%, #d5f6ff, rgba(213, 246, 255, 0)); }
+
+.wrap img {
+  width: 100%;
+  margin-top: 15px; }
+
+p {
+  margin-top: 15px;
+  text-align: justify; }
+
+h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); }
+
+h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 4px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); }
+
+a {
+  text-decoration: none;
+  color: #4A4A4A !important; }
+
+a:hover {
+  text-decoration: underline;
+  color: #6B6B6B !important; }
+
+.page-content ul {
+  list-style: none;
+  margin-left: 2em; }
+.page-content p {
+  text-indent: 2em; }
+.page-content h4 {
+  margin-left: 1em; }

@@ -1,8 +1,16 @@
----
-layout: default
-title: 我的Blog
----
-<div class="container-fluid">
+<!DOCTYPE html>
+<html>
+    <head>
+    　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+       <link rel="stylesheet" href="/css/main.css">
+       <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+       <link rel="stylesheet" href="/assets/css/custom.css">
+       
+    　　<title>我的Blog</title>
+    </head>
+    <body>
+
+    　　<div class="container-fluid">
   <!-- 导航 -->
   <div class="row">
     <div id="nav">
@@ -23,23 +31,31 @@ title: 我的Blog
   <h1>热门贴</h1>
 
   <div class="row">
-    {% for category in site.categories | sort: last.size limit:1 %}
+    
       <div class="col-md-3">
         <div class="wrap">
-         <h3>分类最多文章</br>{{category.first}} ({{ category.last.size }})</h3>   
+         <h3>分类最多文章</br>jekyll (2)</h3>   
           <ol>
-            {% for posts in category%}
-              {% for post in posts %}
-                {% if post.url %}
-                <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-                {% endif %}
-              {% endfor %}
-            {% endfor%}
+            
+              
+                
+              
+            
+              
+                
+                <li><a href="/jekyll/github-page/2016/08/08/meet-jekyll.html">初遇jekyll</a></li>
+                
+              
+                
+                <li><a href="/jekyll/2016/08/05/first.html">你好，世界</a></li>
+                
+              
+            
           </ol> 
          <br />
         </div>
       </div>
-    {% endfor %}    
+        
   
     <div class="col-md-3">
       <div class="wrap">
@@ -102,3 +118,8 @@ title: 我的Blog
 
 
 <div class="gradient"></div>
+
+    </body>
+    <script type="text/javascript" src="/assets/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+</html>

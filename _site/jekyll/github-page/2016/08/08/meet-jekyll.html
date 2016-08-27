@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+     
+  　<title>初遇jekyll</title>
+    <style type="text/css">
+      body{
+        text-align: left;
+      }
+
+      h1, h2{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container_fluid">
+      <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-9">
+          <div class="page-content">
+          <h1 id="jekyll">初遇jekyll</h1>
+
+<h2 id="github-page--jekyll">初步搭建github-page + jekyll的体验</h2>
+
+<h3 id="github-page">1. 关于github-page</h3>
+
+<p>本人直接用的github申请的账号 + mac客户端，省去了本地用git创建仓库上传到gitbub并添加认证的过程。</p>
+
+<p>github-page的创建过程见官网<a href="https://pages.github.com/" title="GitHub Page">github page</a></p>
+
+<h3 id="jekyll-1">2. 关于jekyll</h3>
+
+<p>jekyll的基本语法参考官网，<a href="https://jekyllrb.com/docs/" title="Jekyll">Jekyll</a>，唯一不好的是没有注释。
+因为我的mac上装了各种乱七八糟的东西，jekyll直接就装上了，看官网需要已安装：</p>
+
+<ul>
+  <li>ruby</li>
+  <li>rubygems</li>
+  <li>linux/unix/mac osX</li>
+  <li>nodejs</li>
+  <li>python2.7</li>
+</ul>
+
+<h4 id="section">个人认为几个比较重要的章节：</h4>
+
+<ul>
+  <li><a href="https://jekyllrb.com/docs/structure/" title="structure">目录结构</a></li>
+  <li><a href="https://jekyllrb.com/docs/configuration/" title="configuration">配置</a></li>
+  <li><a href="https://jekyllrb.com/docs/posts/" title="posts">最简单的页面</a></li>
+  <li><a href="https://jekyllrb.com/docs/variables/" title="variables">系统变量</a></li>
+  <li><a href="https://jekyllrb.com/docs/collections/" title="collections">使用自己的数据</a></li>
+  <li><a href="https://jekyllrb.com/docs/datafiles/" title="datafiles">自定义数据</a></li>
+  <li><a href="https://jekyllrb.com/docs/templates/" title="templates">filter和tag</a></li>
+  <li><a href="https://jekyllrb.com/docs/permalinks/" title="permalinks">永久链接</a></li>
+  <li><a href="https://jekyllrb.com/docs/pagination/" title="pagination">分页</a></li>
+  <li><a href="https://jekyllrb.com/docs/plugins/" title="plugins">插件</a></li>
+</ul>
+
+<h4 id="section-1">扩展知识：</h4>
+
+<ul>
+  <li>sass</li>
+  <li>yaml</li>
+  <li>liquid</li>
+</ul>
+
+<h3 id="section-2">3.遇到的问题</h3>
+
+<h4 id="section-3">加载资源文件的方式</h4>
+
+<p>css文件至少可以从一下几种方式载入：</p>
+
+<ul>
+  <li>系统目录/css，只支持sass/scss格式</li>
+  <li>/include 未使用</li>
+  <li>/assets，系统资源路径，我把css，js等资源都放在了这里。但是图片用的系统文件夹 /img</li>
+</ul>
+
+<h4 id="section-4">统计包含文章最多的分类</h4>
+
+<p>这个没找到完全中意的资料，不是太复杂就是不符合需求。最终解决方案如下：</p>
+<p>\{\% for category in site.categories | sort: last.size | first limit:1 \%\} </p>
+
+<ul>
+  <li>site.categories获取所有分类</li>
+  <li>sort: last.size根据分类文章数量排序</li>
+  <li>limit:1 只取第一个</li>
+</ul>
+
+<p>但是此写法liquid语法检查会有异常</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  　　
+
+  </body>
+  <script type="text/javascript" src="/assets/js/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+</html>
