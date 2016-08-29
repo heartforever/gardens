@@ -5,8 +5,9 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
-     
-  　<title>为了不让对方孤独努力的活着</title>
+    <link rel="stylesheet" href="/assets/css/pygments.css">
+    
+  　<title>代码简洁之道（一）</title>
     <style type="text/css">
       body{
         text-align: left;
@@ -112,7 +113,7 @@ import fitnesse.wiki.*;</p>
 	private StringBuffer newPageContent; 
 	private PageCrawler pageCrawler;</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>public static String render(PageData pageData) throws Exception { 
+<pre><code>public static String render(PageData pageData) throws Exception { 
 	return render(pageData, false);
 }
 
@@ -202,7 +203,6 @@ private void buildIncludeDirective(String pagePathName, String arg) {
 	.append(" .").append(pagePathName).append("\n");
 } }
 </code></pre>
-</div>
 
 <h3 id="section-2">注释</h3>
 

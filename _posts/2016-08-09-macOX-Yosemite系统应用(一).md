@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 初遇jekyll
+title: Yosemite系统快捷应用（一）
 categories: [mac OS X]
 tags: [system, yosemite]
 ---

@@ -1,0 +1,20 @@
+h3{
+	text-align: left;
+}
+
+pre {
+	background-color: #111;
+	text-align: left;
+}
+
+figure{
+	margin-left: 2em;
+}
+
+.page-content{
+	text-align: center;
+}
+
+.page-content div{
+	margin: 2px;
+}

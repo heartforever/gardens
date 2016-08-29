@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="/assets/css/pygments.css">
+    
+  　<title>自动化测试案例--表单数据生成方案</title>
+    <style type="text/css">
+      body{
+        text-align: left;
+      }
+
+      h1, h2{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container_fluid">
+      <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-9">
+          <div class="page-content">
+          <h1 id="section">自动化测试案例–表单数据生成方案</h1>
+
+<h3 id="section-1">一、功能背景</h3>
+
+<p>测试一个通过表单创建对象功能。表单中包含若干个字段，每个字段有一定的要求，需要根据预设
+数据生成定序组合（自创词：数据集在固定顺序下的组合，如数据集A,B,C以固定的A,B,C的顺序把各个数据集
+中的数据项排列组合。对应的是全组合，数据集A,B,C同样全排列的情况下其所有数据项全部排列组合）。
+如有以下字段及预设数据：</p>
+
+<ul>
+  <li>number: 1,2,3</li>
+  <li>small char: a,b</li>
+  <li>big char:A</li>
+</ul>
+
+<p>则生成的数据如下:</p>
+
+<ul>
+  <li>1, a, A</li>
+  <li>1, b, A</li>
+  <li>2, a, A</li>
+  <li>2, b, A</li>
+  <li>3, a, A</li>
+  <li>3, b, A</li>
+</ul>
+
+<p>需要用python实现排列组合为后续测试提供数据</p>
+
+<h3 id="section-2">二、解决方案</h3>
+
+<p>大体思路是在数据结构上，每一个字段的预设数据是一个列表，然后各个字段按一定顺序组成一个大列表作为参数生成组合。
+用迭代思路:</p>
+<ul>
+  <li>迭代终止条件：当只有一个列表时，其中的每一个值变为一个小列表，然后组成一个大列表返回。</li>
+  <li>循环方式：调用递归函数，把函数返回的m个元素的列表和自身的n个元素通过组合生成n*m条数据</li>
+</ul>
+<p>最终返回的就是需要的结果,代码如下：</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">]</span>
+<span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">mret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">mret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mret</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">print</span> <span class="n">rest</span>
+        <span class="n">restret</span> <span class="o">=</span> <span class="n">permute</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">current</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">restret</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+<span class="n">permute</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code></pre></figure>
+
+<p>结果如下</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">]]</span></code></pre></figure>
+
+<h3 id="section-3">新问题</h3>
+
+<p>根据业务场景，全有效数据可以保存成功并跳转页面，非全有效数据保存会报错并停留在当前页。所以两种数据需要区别对待。
+所以最终生成的组合需要区分每一种组合是全有效数据还是包含无效数据。改进思路如下：预设数据分为两个部分--有效数据组，
+无效数据组。同时每条结果由一组数据变为两组数据，第一组为是否有效标志位，通过每次迭代时的乘1运算得到该数据是否为全有效值，
+第二组为数据。改进后的程序如下：</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">a</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&#39;a&#39;</span><span class="p">],[</span><span class="s">&#39;b&#39;</span><span class="p">]]</span>
+<span class="n">c</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">],[</span><span class="s">&#39;D&#39;</span><span class="p">]]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">seq</span>
+        <span class="n">mret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mvalid</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">minvalid</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mvalid</span><span class="p">:</span>
+            <span class="n">mval</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">mflag</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">mdata</span> <span class="o">=</span> <span class="p">[</span><span class="n">mflag</span><span class="p">,</span> <span class="n">mval</span><span class="p">]</span>
+            <span class="n">mret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mdata</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">minvalid</span><span class="p">:</span>
+            <span class="n">mval</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">mflag</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">mdata</span> <span class="o">=</span> <span class="p">[</span><span class="n">mflag</span><span class="p">,</span> <span class="n">mval</span><span class="p">]</span>
+            <span class="n">mret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mdata</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mret</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">restret</span> <span class="o">=</span> <span class="n">permute</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">restret</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">newflag</span> <span class="o">=</span> <span class="p">[</span><span class="n">flag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">newval</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">+</span> <span class="n">val</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">newflag</span><span class="p">,</span> <span class="n">newval</span><span class="p">]</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">invalid</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">restret</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">newflag</span> <span class="o">=</span> <span class="p">[</span><span class="n">flag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">newval</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">+</span> <span class="n">val</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">newflag</span><span class="p">,</span> <span class="n">newval</span><span class="p">]</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span></code></pre></figure>
+
+<p>结果如下：</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="p">[[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">]],</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">]]]</span></code></pre></figure>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  　　
+
+  </body>
+  <script type="text/javascript" src="/assets/js/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+</html>

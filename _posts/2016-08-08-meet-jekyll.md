@@ -1,7 +1,8 @@
 ---
 layout: page
 title: 初遇jekyll
-categories: [jekyll, gitHub-page]
+categories: [gitHub-page]
+tag: jekyll
 ---
 
 # {{ page.title }}

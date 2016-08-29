@@ -43,7 +43,7 @@ title: 我的Blog
   
     <div class="col-md-3">
       <div class="wrap">
-       <h3>分类最多发布 (5)</h3>   
+       <h3>分类最多访问 (5)</h3>   
         <ul>
           <li>xxxxxxxxxxxxxx</li>
           <li>xxxxxxxxxxxxxx</li>
@@ -84,20 +84,23 @@ title: 我的Blog
   <!-- 分类区 -->
   <h1>分类贴</h1>
 
-  <div class="row">
+  {% for category in site.categories | sort: last.size %}
     <div class="col-md-3">
       <div class="wrap">
-       <h3>分类最多访问 (5)</h3>   
-        <ul>
-          <li>xxxxxxxxxxxxxx</li>
-          <li>xxxxxxxxxxxxxx</li>
-          <li>xxxxxxxxxxxxxx</li>
-        </ul> 
+       <h3>{{category.first}} ({{ category.last.size }})</h3>   
+        <ol>
+          {% for posts in category%}
+            {% for post in posts %}
+              {% if post.url %}
+              <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+              {% endif %}
+            {% endfor %}
+          {% endfor%}
+        </ol> 
        <br />
-       <a href="http://www.designshock.com/"> DesignShock.com </a>
       </div>
     </div>
-  </div>
+  {% endfor %}    
 </div>
 
 
